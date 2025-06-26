@@ -1,0 +1,1414 @@
+{% extends "MasterHeader.html" %} {% block content %}
+<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+
+<title>Deepfence - Protect and Secure your AI Investments</title>
+<link href="https://cdn.syncfusion.com/ej2/22.1.45/material.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+  xintegrity="sha512-1ycn6IcaQQ40hnbTGcWlSGFNPGCfoHTgY/s/AgBng9F4KmgeCEjma0+AB6DCS5W/Lh61vRKzXpQ2pr+mNXboxNg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://ej2.syncfusion.com/javascript/demos/grid/checkbox-selection/datasource.js"
+  type="text/javascript"></script>
+<link href="https://cdn.syncfusion.com/ej2/28.1.33/ej2-base/styles/material.css" rel="stylesheet">
+<link href="https://cdn.syncfusion.com/ej2/28.1.33/ej2-popups/styles/material.css" rel="stylesheet">
+<link href="https://cdn.syncfusion.com/ej2/28.1.33/ej2-navigations/styles/material.css" rel="stylesheet">
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="https://cdn.syncfusion.com/ej2/28.1.33/dist/ej2.min.js" type="text/javascript"></script>
+<script src="https://cdn.syncfusion.com/ej2/syncfusion-helper.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  /* Add this to your existing <style> block */
+
+  /* Style for the active step container itself when it's an error */
+  .e-stepper .e-stepper-item.e-active.e-error-state {
+    background-color: #ffebeb !important;
+    /* Light red background for the whole active step */
+    border: 1px solid red !important;
+    /* Optional: add a red border */
+    border-radius: 4px;
+    /* Optional: slight rounding */
+  }
+
+  /* To ensure the icon and label also turn red for the error state */
+  .e-stepper .e-stepper-item.e-active.e-error-state .e-step-container .e-indicator {
+    color: red !important;
+    /* For the icon */
+    border-color: red !important;
+    /* For the indicator border */
+  }
+
+  .e-stepper .e-stepper-item.e-active.e-error-state .e-step-container .e-stepper-label {
+    color: red !important;
+    /* For the label */
+  }
+
+  /* Optional: Define a base style for all active steps if you want a default active background */
+  .e-stepper .e-stepper-item.e-active {
+    /* Example: A subtle active background for all active steps */
+    background-color: #f0f8ff;
+    /* Light blue */
+    border-radius: 4px;
+  }
+
+  .stepper-container {
+    margin: 10px;
+    display: flex;
+    gap: 0px;
+    width: 130%;
+    max-width: 1300px;
+    align-items: flex-start;
+  }
+
+  #verticalStepper {
+    width: 300px;
+    /* Fixed width for vertical stepper */
+    height: 675px;
+    /* Fixed height for vertical stepper */
+  }
+
+  .vertical-stepper-column {
+    min-width: 60px;
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+  }
+
+  /* --- Syncfusion Vertical Stepper Spacing Adjustments --- */
+
+  /* Target the individual stepper item */
+  .e-stepper.e-vertical .e-stepper-item {
+    padding: 15px 0;
+    /* Add vertical padding to each item */
+    margin-bottom: 20px;
+    /* Add space between items */
+  }
+
+  /* Adjust the vertical line for more length */
+  .e-stepper.e-vertical .e-stepper-line {
+    height: calc(100% + 40px);
+    /* Increase line height to cover expanded item space */
+    top: 50%;
+    /* Center the line vertically relative to the item */
+    transform: translateY(-50%);
+    /* Adjust to truly center */
+  }
+
+  /* Ensure the line doesn't extend past the last item */
+  .e-stepper.e-vertical .e-stepper-item:last-child .e-stepper-line {
+    display: none;
+    /* Hide the line after the last item */
+  }
+
+  .e-stepper.e-vertical .e-step-container .e-indicator {
+    font-size: 30px;
+    padding: 20px;
+  }
+
+  /* --- End Syncfusion Vertical Stepper Spacing Adjustments --- */
+
+
+  .horizontal-steppers-column {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 33px;
+    /* margin-left: 105px; */
+  }
+
+  .workflow-column {
+    display: flex;
+    align-items: center;
+    padding: 11px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    flex-wrap: wrap;
+    width: 165px;
+  }
+
+  .workflow-row {
+    display: flex;
+    align-items: center;
+    padding: 25px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    flex-wrap: wrap;
+    height: 110px;
+  }
+
+  .horizontal-stepper-area {
+    flex-grow: 1;
+    min-width: 450px;
+    max-width: 1100px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+  }
+
+  .e-stepper-line {
+    background-color: #ddd !important;
+  }
+
+  .e-stepper-label,
+  .e-stepper-icon {
+    font-size: 1.1em;
+  }
+</style>
+
+<body>
+  <!-- Modal for displaying amChart -->
+  <div class="modal fade" id="chartModal" tabindex="-1" aria-labelledby="chartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="chartModalLabel">Resource Performance & Self Cost Tracking</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Tab navigation -->
+          <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" id="tab1-tab" data-bs-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
+                aria-selected="true">GenAI Token Cost Tracking & Prediction</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="tab2-tab" data-bs-toggle="tab" href="#tab2" role="tab" aria-controls="tab2"
+                aria-selected="false">RAM & CPUPerformance Tracking</a>
+            </li>
+            <!-- <li class="nav-item" role="presentation">
+              <a class="nav-link" id="tab3-tab" data-bs-toggle="tab" href="#tab3" role="tab" aria-controls="tab3"
+                aria-selected="false">RAM Performance Tracking</a>
+            </li> -->
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="tab4-tab" data-bs-toggle="tab" href="#tab4" role="tab" aria-controls="tab4"
+                aria-selected="false">Agent Timeouts & Alerts</a>
+            </li>
+          </ul>
+
+          <!-- Tab content -->
+          <div class="tab-content" id="chartTabsContent">
+            <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+              <div id="amChartContainer1" style="width: 100%; height: 400px;"></div>
+            </div>
+            <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+              <div id="amChartContainer2" style="width: 100%; height: 400px;"></div>
+            </div>
+            <!-- <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+              <div id="amChartContainer3" style="width: 100%; height: 400px;"></div>
+            </div> -->
+            <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
+              <div id="amChartContainer4" style="width: 100%; height: 400px;"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="configModal" tabindex="-1" aria-labelledby="configModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="configModalLabel">Set Configuration</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <iframe src="/DataLoader" width="1100" height="600"></iframe>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin-bottom: 20px; margin-top: 20px;    margin-left: 370px;">
+    <button type="button" id="executeAgents" onclick="ExecuteAgents()" class="btn btn-primary ">Execute
+      Agents </button>
+  </div>
+  <div class="stepper-container">
+
+    <br>
+    <div class="vertical-stepper-column">
+      <div class="workflow-column">
+        <div id="verticalStepper"></div>
+      </div>
+    </div>
+
+    <div class="horizontal-steppers-column">
+      <div class="workflow-row">
+        <div class="horizontal-stepper-area" id="horizontalStepper1"></div>
+      </div>
+
+      <div class="workflow-row">
+        <div class="horizontal-stepper-area" id="horizontalStepper2"></div>
+      </div>
+
+      <div class="workflow-row">
+        <div class="horizontal-stepper-area" id="horizontalStepper3"></div>
+      </div>
+
+      <div class="workflow-row">
+        <div class="horizontal-stepper-area" id="horizontalStepper4"></div>
+      </div>
+      <div class="workflow-row">
+        <div class="horizontal-stepper-area" id="horizontalStepper5"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.syncfusion.com/ej2/22.1.45/dist/ej2.min.js"></script>
+  <script type="text/javascript" src="../static/CDN/jsonform/deps/jquery.min.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+  <script>
+    // Object to store references to all initialized stepper objects
+    const stepperObjects = {};
+    const socket = io(); // Initialize Socket.IO client
+
+    window.onload = function () {
+
+
+      var verticalWorkflowSteps =[
+  {
+    "label": "Data Security",
+    "iconCss": "fas fa-shield-alt",
+    "description": "Overview of Data Security tasks."
+  },
+  {
+    "label": "Model Development",
+    "iconCss": "fas fa-flask",
+    "description": "Details about Model Development processes."
+  },
+  {
+    "label": "Model Infrastructure",
+    "iconCss": "fas fa-building",
+    "description": "Steps involved in Model Infrastructure."
+  },
+  {
+    "label": "Model Security",
+    "iconCss": "fas fa-user-shield",
+    "description": "Final stages of Model Security."
+  },
+  {
+    "label": "Model Usage",
+    "iconCss": "fas fa-chart-line",
+    "description": "Overview of Model Usage tasks."
+  }
+]
+
+      // Store the vertical stepper object
+      stepperObjects.verticalStepper = new ej.navigations.Stepper({
+        steps: verticalWorkflowSteps,
+        activeStep: 0,
+        orientation: 'Vertical',
+        showTooltip: true,
+        tooltipTemplate: (step) => `<b>${step.value.label}</b><br>${step.value.description}`,
+        stepClick: (args) => {
+            console.log(args)
+            $('#configModal').modal('show');
+          }
+      });
+      stepperObjects.verticalStepper.appendTo('#verticalStepper');
+
+      var horizontalWorkflowData = {
+  "DataSecurityStepper": [
+    {
+      "label": "Initiate",
+      "iconCss": "fas fa-play hs1-icon-orange",
+      "description": "Begin the fundamental phase of establishing robust data security measures for your AI models."
+    },
+    {
+      "label": "Data Poisoning",
+      "iconCss": "fas fa-skull-crossbones",
+      "description": "Address and mitigate risks associated with malicious data injection intended to corrupt model training."
+    },
+    {
+      "label": "Data Access Control",
+      "iconCss": "fas fa-user-lock",
+      "description": "Implement policies and mechanisms to restrict and manage who can access and modify sensitive data."
+    },
+    // { "label": "Model Backup", "iconCss": "fas fa-eye hs1-icon-cyan", "description": "Review results of process A for Data Security." },
+    {
+      "label": "Data Input Manipulation",
+      "iconCss": "fas fa-sliders-h",
+      "description": "Protect against attempts to alter input data in transit or at the point of ingestion to compromise model integrity."
+    },
+    {
+      "label": "Data Label Manipulation",
+      "iconCss": "fas fa-tags",
+      "description": "Safeguard against unauthorized changes to data labels, which can lead to biased or incorrect model learning."
+    },
+    // { "label": "Data Injection", "iconCss": "fas fa-sync-alt", "description": "Execute processing step A for Data Security." },
+    // { "label": "Data Corruption", "iconCss": "fas fa-eye hs1-icon-cyan", "description": "Review results of process A for Data Security." },
+    // { "label": "Data Minimisation", "iconCss": "fas fa-check", "description": "Data Security, Step A completed." },
+    {
+      "label": "Data Catalogue",
+      "iconCss": "fas fa-book-open",
+      "description": "Maintain a comprehensive inventory of all data assets, ensuring traceability and understanding of data lineage and characteristics."
+    }
+  ],
+  "ModelDevelopmentStepper": [
+    {
+      "label": "Initiate",
+      "iconCss": "fas fa-play hs1-icon-orange",
+      "description": "Start the foundational phase of designing and building your AI model, emphasizing secure-by-design principles."
+    },
+    {
+      "label": "Gradient Masking",
+      "iconCss": "fas fa-mask",
+      "description": "Apply techniques to obscure or protect model gradients during training to enhance privacy and adversarial robustness."
+    },
+    {
+      "label": "Defensive Distillation",
+      "iconCss": "fas fa-fire-extinguisher",
+      "description": "Employ a training method to reduce the model's sensitivity to small input perturbations, making it more resilient to adversarial attacks."
+    },
+    {
+      "label": "Model Regularization",
+      "iconCss": "fas fa-compress-alt",
+      "description": "Implement regularization techniques to prevent overfitting and improve the generalization and robustness of the model."
+    },
+    {
+      "label": "Feature Squeezing",
+      "iconCss": "fas fa-compress",
+      "description": "Reduce the color depth or apply smoothing to input features to eliminate small adversarial perturbations."
+    },
+    // { "label": "Reformers", "iconCss": "fas fa-rocket", "description": "REFORMERS" },
+    // { "label": "Adaptive Misinformation", "iconCss": "fas fa-chart-pie", "description": "ADAPTIVE_MISINFORMATION" },
+    // { "label": "Neural Cleanse", "iconCss": "fas fa-rocket", "description": "NEURAL_CLEANSE" },
+    // { "label": "Model Guided Anonymization", "iconCss": "fas fa-chart-pie", "description": "MODEL_GUIDED_ANONYMIZATION" },
+    {
+      "label": "Model Anonymization",
+      "iconCss": "fas fa-id-badge",
+      "description": "Apply methods to ensure that individual data points cannot be re-identified from the trained model."
+    }
+  ],
+  "ModelInfrastructureStepper": [
+    {
+      "label": "Initiate",
+      "iconCss": "fas fa-play hs1-icon-orange",
+      "description": "Begin setting up the secure and scalable infrastructure required for model deployment and operation."
+    },
+    {
+      "label": "Node Deactivation",
+      "iconCss": "fas fa-power-off",
+      "description": "Manage the secure deactivation of computational nodes to prevent unauthorized access or data leakage."
+    },
+    {
+      "label": "Deep Contractive Network",
+      "iconCss": "fas fa-network-wired",
+      "description": "Utilize specialized network architectures to improve model robustness and resistance to adversarial examples."
+    },
+    {
+      "label": "Multiparty Computation",
+      "iconCss": "fas fa-users-cog",
+      "description": "Implement secure multi-party computation protocols to enable collaborative model training or inference without revealing individual data inputs."
+    },
+    {
+      "label": "Defend Deployment",
+      "iconCss": "fas fa-cloud-upload-alt",
+      "description": "Establish defensive measures and monitoring for the secure deployment environment of the AI model."
+    },
+    // { "label": "SIEM Integration", "iconCss": "fas fa-clipboard-list", "description": "SIEM_INTEGRATION" },
+    // { "label": "ENV Compliance", "iconCss": "fas fa-code", "description": "ENV_COMPLIANCE" },
+    // { "label": "Model Theft", "iconCss": "fas fa-vial", "description": "MODEL_THEFT" },
+    // { "label": "Certificate Spoofingw", "iconCss": "fas fa-cloud-upload-alt", "description": "CERTIFICATE_SPOOFING" },
+    {
+      "label": "Network Health",
+      "iconCss": "fas fa-heartbeat",
+      "description": "Continuously monitor the health and security of the network infrastructure supporting model operations."
+    }
+  ],
+  "ModelSecurityStepper": [
+    {
+      "label": "Initiate",
+      "iconCss": "fas fa-play hs1-icon-orange",
+      "description": "Start the dedicated phase of securing the trained AI model itself, addressing potential vulnerabilities."
+    },
+    {
+      "label": "Prevent Weight Tampering",
+      "iconCss": "fas fa-weight-hanging",
+      "description": "Protect the model's learned weights from unauthorized alteration, which could lead to malicious behavior."
+    },
+    // { "label": "Prevent Model Manipulation", "iconCss": "fas fa-clipboard-check", "description": "PREVENT_MODEL_MANIPULATION" },
+    {
+      "label": "Enable Differential Privacy",
+      "iconCss": "fas fa-user-secret",
+      "description": "Integrate differential privacy mechanisms to ensure that the model does not leak information about individual training data points."
+    },
+    // { "label": "Prevent Deletion", "iconCss": "fas fa-signature", "description": "PREVENT_MODEL_DELETION" },
+    {
+      "label": "Encryption",
+      "iconCss": "fas fa-lock",
+      "description": "Apply encryption to the model and its data at rest and in transit to prevent unauthorized access."
+    },
+    {
+      "label": "Decryption",
+      "iconCss": "fas fa-unlock",
+      "description": "Manage the secure decryption of encrypted models and data for authorized use."
+    },
+    // { "label": "Set Model Access Password", "iconCss": "fas fa-signature", "description": "SET_MODEL_ACCESS_PASSWORD" },
+    {
+      "label": "Anonymize Critical PII Failures",
+      "iconCss": "fas fa-user-slash",
+      "description": "Identify and anonymize any personally identifiable information (PII) that might accidentally be exposed by model failures or outputs."
+    }
+  ],
+  "ModelUsageStepper": [
+    {
+      "label": "Initiate",
+      "iconCss": "fas fa-play hs1-icon-orange",
+      "description": "Begin the phase of securely deploying and operating the AI model for its intended use."
+    },
+    {
+      "label": "Lock Model",
+      "iconCss": "fas fa-lock",
+      "description": "Implement mechanisms to temporarily or permanently lock the model from modifications or unauthorized access."
+    },
+    {
+      "label": "Unlock Model",
+      "iconCss": "fas fa-unlock",
+      "description": "Provide secure procedures for authorized personnel to unlock and access the model when needed."
+    },
+    // { "label": "White Box Attack", "iconCss": "fas fa-clipboard-check", "description": "PREVENT_WHITE_BOX_ATTACK" },
+    // { "label": "Black Box Attack", "iconCss": "fas fa-signature", "description": "PREVENT_BLACK_BOX_ATTACK" },
+    // { "label": "Grey Box Attack", "iconCss": "fas fa-clipboard-check", "description": "PREVENT_GREY_BOX_ATTACK" },
+    // { "label": "Badnets", "iconCss": "fas fa-signature", "description": "PREVENT_BADNETS" },
+    {
+      "label": "Responsible AI",
+      "iconCss": "fas fa-balance-scale",
+      "description": "Ensure the model adheres to ethical guidelines, fairness, transparency, and accountability during its operation."
+    },
+    {
+      "label": "Privilege Policy",
+      "iconCss": "fas fa-user-shield",
+      "description": "Enforce a least-privilege access policy for model interaction and administration, granting only necessary permissions."
+    },
+    {
+      "label": "Adversarial Input",
+      "iconCss": "fas fa-bug",
+      "description": "Detect and mitigate the impact of adversarial inputs designed to trick or manipulate the model's predictions."
+    }
+  ]
+};
+
+      function createTooltipContent(step) {
+        const dynamicDescription = step.value.dynamicDescription || step.value.description;
+        const tooltipContent = `<b>${step.value.label}</b><br>Description: ${dynamicDescription}`;
+        return tooltipContent;
+      }
+
+      function initializeHorizontalStepper(elementId, workflowId) {
+        const steps = horizontalWorkflowData[workflowId];
+        if (steps) {
+          const stepper = new ej.navigations.Stepper({
+            steps: steps,
+            activeStep: 0,
+            showTooltip: true,
+            tooltipTemplate: createTooltipContent,
+            orientation: 'Horizontal',
+            stepClick: (args) => {
+              console.log("here")
+              $('#chartModal').modal('show');
+
+              // Create the chart for the clicked node
+              createAmcharts();
+              //Your required action here
+            }
+          });
+          stepper.appendTo(`#${elementId}`);
+          // Store the stepper object with a meaningful key
+          stepperObjects[workflowId] = stepper;
+        } else {
+          console.warn(`No horizontal stepper data found for workflowId: ${workflowId}`);
+        }
+      }
+
+      initializeHorizontalStepper('horizontalStepper1', 'DataSecurityStepper');
+      initializeHorizontalStepper('horizontalStepper2', 'ModelDevelopmentStepper');
+      initializeHorizontalStepper('horizontalStepper3', 'ModelInfrastructureStepper');
+      initializeHorizontalStepper('horizontalStepper4', 'ModelSecurityStepper');
+      initializeHorizontalStepper('horizontalStepper5', 'ModelUsageStepper');
+
+      //     function StepperClick() {
+      //         console.log("here")
+      //         $('#chartModal').modal('show');
+
+      //   // Create the chart for the clicked node
+      //   createAmcharts();
+      //     }
+
+    };
+
+    function ExecuteAgents() {
+
+      let urlRaw = "/execute_agents"
+      setTimeout(() => {
+        fetch(urlRaw).then((resp) => resp.json())
+          .then(async (data) => {
+
+            // Swal.close();
+          });
+
+      });
+
+      socket.on('AgentExecuted', (msg) => {
+        // console.log(msg)
+
+        console.log(">>>>>>", JSON.parse(msg))
+        var message = JSON.parse(msg)
+
+        const targetStepperId = message["Workflow"] + 'Stepper'; // Or derive this from the message payload
+
+        if (stepperObjects[targetStepperId]) {
+          const stepperObj = stepperObjects[targetStepperId];
+          // Get the current active step before incrementing (this is the one that just finished)
+          const currentActiveStepIndex = stepperObj.activeStep;
+          const currentStepData = stepperObj.steps[currentActiveStepIndex];
+          console.log(JSON.parse(message["EventData"]).Status)
+          // --- Apply/Remove error state background and text color ---
+
+
+
+
+          // Increment active step only if it's not the last step
+          if (stepperObj.activeStep < stepperObj.steps.length - 1) {
+            stepperObj.activeStep++;
+          } else {
+            console.warn(`Attempted to advance past the last step for ${targetStepperId}`);
+          }
+
+          if (message["EventData"] && JSON.parse(message["EventData"]).Status != 'Success') {
+            // Add the custom error class to the current step's cssClass
+            // Ensure you don't duplicate it if it's already there
+            console.log("in")
+            stepperObj.steps[stepperObj.activeStep].isValid = false
+          }
+
+
+          // Update the description of the current active step
+          // Ensure the activeStep index is valid before trying to access steps[activeStep]
+          if (stepperObj.activeStep < stepperObj.steps.length) {
+            stepperObj.steps[stepperObj.activeStep].dynamicDescription = msg;
+          }
+
+          // Refresh the tooltip and the stepper to reflect changes
+          stepperObj.dataBind(); // This will re-render and update the tooltip
+          console.log("socketIO message :", msg);
+        } else {
+          console.error(`Stepper object not found for ID: ${targetStepperId}`);
+        }
+      });
+
+      // Add more socket.on listeners for other stepper updates as needed
+      // For example, for Model Development:
+
+      socket.on('WorkflowCompleted', (msg) => {
+        const targetStepperId = 'verticalStepper';
+        if (stepperObjects[targetStepperId]) {
+          const stepperObj = stepperObjects[targetStepperId];
+          if (stepperObj.activeStep < stepperObj.steps.length - 1) {
+            stepperObj.activeStep++;
+          }
+          // if (stepperObj.activeStep < stepperObj.steps.length) {
+          //     stepperObj.steps[stepperObj.activeStep].dynamicDescription = msg;
+          // }
+          stepperObj.dataBind();
+
+          console.log("socketIO message:", msg);
+        }
+      });
+
+    }
+
+    function createAmcharts() {
+
+
+
+      function createFirstGraph(containerId, sampleData) {
+
+        am5.ready(function () {
+          // Create root element
+          var root = am5.Root.new(containerId);
+
+          // Set themes
+          root.setThemes([am5themes_Animated.new(root)]);
+
+          // Generate chart data from sampleData
+          var data = sampleData.map(function (entry) {
+            return {
+              date: new Date(entry.start_time).getTime(), // Convert start_time to Date object (in milliseconds)
+              value: entry.cost
+            };
+          });
+
+          // Create chart
+          var chart = root.container.children.push(am5xy.XYChart.new(root, {
+            // focusable: true,
+            panX: true,
+            panY: true,
+            wheelX: "panX",
+            wheelY: "zoomX",
+            pinchZoomX: true,
+            paddingLeft: 0
+          }));
+
+          // Create axes
+          var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
+            maxDeviation: 0.5,
+            groupData: false,
+            extraMax: 0.1,
+            extraMin: -0.1,
+            baseInterval: {
+              timeUnit: "hour",
+              count: 1
+            },
+            dateFormats: {
+              hour: "HH:mm"
+            },
+            periodChangeDateFormats: {
+              hour: "MMM d, HH:mm"
+            },
+            renderer: am5xy.AxisRendererX.new(root, {
+              // minorGridEnabled: true,
+              minGridDistance: 30
+            }),
+            tooltip: am5.Tooltip.new(root, {})
+          }));
+
+          var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+            renderer: am5xy.AxisRendererY.new(root, {
+              minGridDistance: 50 // Adjusts the spacing between grid lines
+            }),
+            min: 0,                // Ensures the Y-axis starts at 0
+            maxPrecision: 0,       // Ensures no decimal values on the Y-axis
+            step: 5                // Sets the step increment to 5
+          }));
+
+          // Create AxisRange for the red and bold line at Y=5
+          var axisRange = yAxis.createAxisRange(yAxis.makeDataItem({
+            value: 5,
+            endValue: 5
+          }));
+
+          // Customize the appearance of the AxisRange (the bold red line)
+          axisRange.get("grid").setAll({
+            stroke: am5.color(0xff0000), // Set grid line color to red
+            strokeWidth: 2,
+            strokeOpacity: 1
+          });
+
+          // Add series
+          var series = chart.series.push(am5xy.LineSeries.new(root, {
+            name: "Cost Series",
+            xAxis: xAxis,
+            yAxis: yAxis,
+            valueYField: "value",
+            valueXField: "date",
+            strokeWidth: 2,
+            tooltip: am5.Tooltip.new(root, {
+              pointerOrientation: "horizontal",
+              labelText: "{valueY}"
+            })
+          }));
+
+
+          // Add bullets and annotations for values exceeding the Y-axis threshold (5)
+          series.bullets.push(function (root, series, dataItem) {
+            var container = am5.Container.new(root, {});
+
+            // Default bullet
+            container.children.push(am5.Circle.new(root, {
+              radius: 4,
+              fill: am5.color(0x4a90e2)
+            }));
+
+            // Add annotation for values exceeding the threshold
+            if (dataItem.dataContext.value > 5) {
+              // Red circle to indicate exceeded point
+              container.children.push(am5.Circle.new(root, {
+                radius: 6,
+                fill: am5.color(0xff0000)
+              }));
+
+              // Add a label for the annotation
+              container.children.push(am5.Label.new(root, {
+                text: "Budget Exceed at\n" + new Date(dataItem.dataContext.date).toLocaleString(),
+                x: 15,  // Offset for label
+                y: -10, // Offset for label
+                fill: am5.color(0x000000), // Black text
+                fontSize: 12,
+                fontWeight: "bold",
+                textAlign: "center"
+              }));
+            }
+
+            return am5.Bullet.new(root, {
+              locationX: undefined,
+              sprite: container
+            });
+          });
+
+          // Set initial data to the series
+          series.data.setAll(data);
+
+          // Add cursor
+          var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
+            xAxis: xAxis
+          }));
+          cursor.lineY.set("visible", false);
+
+          // Make stuff animate on load
+          chart.appear(1000, 100);
+        }); // end am5.ready()
+        insertTelemetry(EVENT_SOURCE_SPECTRA, AGENT_ORCHESTRATION_LOAD_GENAI_GRAPH, "Gen AI Graph loaded successfully", JSON.stringify({ "Chart Data": sampleData }));
+
+      }
+
+      function createSecondGraph(containerId, sampleData) {
+        am5.ready(function () {
+          // Create root element
+          var root = am5.Root.new(containerId);
+
+          // Set theme
+          root.setThemes([am5themes_Animated.new(root)]);
+
+          // Create chart
+          var chart = root.container.children.push(
+            am5xy.XYChart.new(root, {
+              panX: true,
+              panY: false,
+              wheelX: "panX",
+              wheelY: "zoomX",
+            })
+          );
+
+          // Create axes
+          var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
+            maxDeviation: 0.5,
+            groupData: false,
+            extraMax: 0.1,
+            extraMin: -0.1,
+            baseInterval: {
+              timeUnit: "hour",
+              count: 1
+            },
+            dateFormats: {
+              hour: "MMM d, HH:mm"
+            },
+            periodChangeDateFormats: {
+              hour: "MMM d, HH:mm"
+            },
+            renderer: am5xy.AxisRendererX.new(root, {
+              minorGridEnabled: true,
+              minGridDistance: 50
+            }),
+            tooltip: am5.Tooltip.new(root, {})
+          }));
+
+          var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+            renderer: am5xy.AxisRendererY.new(root, {
+              minGridDistance: 50 // Adjusts the spacing between grid lines
+            }),
+            min: 0,                // Ensures the Y-axis starts at 0
+            maxPrecision: 0,       // Ensures no decimal values on the Y-axis
+            step: 5                // Sets the step increment to 5
+          }));
+
+          // Create series for RAM usage
+          var ramSeries = chart.series.push(
+            am5xy.LineSeries.new(root, {
+              name: "RAM Usage",
+              xAxis: xAxis,
+              yAxis: yAxis,
+              valueYField: "ram_usage",
+              valueXField: "start_time",
+              tooltip: am5.Tooltip.new(root, {
+                labelText: "{name}: {valueY}",
+              }),
+            })
+          );
+          ramSeries.strokes.template.setAll({ stroke: am5.color("#0000FF"), strokeWidth: 2 });
+          ramSeries.bullets.push(function (root, series, dataItem) {
+            return am5.Bullet.new(root, {
+              sprite: am5.Circle.new(root, {
+                radius: 5,
+                fill: am5.color("#0000FF"), // Blue bullets for RAM Usage
+              }),
+            });
+          });
+
+          var axisRange_1 = yAxis.createAxisRange(yAxis.makeDataItem({
+            value: 60,
+            endValue: 60
+          }));
+
+          // Customize the appearance of the AxisRange (the bold red line)
+          axisRange_1.get("grid").setAll({
+            stroke: am5.color(0xff0000), // Set grid line color to red
+            strokeWidth: 2,
+            strokeOpacity: 1
+          });
+          // Add custom annotations or tooltips for values exceeding the threshold of 60
+          ramSeries.bullets.push(function (root, serramSeriesies, dataItem) {
+            var dataValue = dataItem.dataContext.value;
+            if (dataValue > 60) {  // Only add annotations for values exceeding 60
+              var annotation = am5.Container.new(root, {});
+
+              // Red circle to indicate breached point
+              var circle = annotation.children.push(am5.Circle.new(root, {
+                radius: 6,
+                fill: am5.color(0xff0000)  // Red circle
+              }));
+
+              // Label with black text to indicate threshold breach
+              var label = annotation.children.push(am5.Label.new(root, {
+                text: "Budget Exceed\n" + new Date(dataItem.dataContext.date).toLocaleString(),
+                x: 15,  // offset for label
+                y: -10, // offset for label
+                fill: am5.color(0x000000),  // Black text
+                fontSize: 12,
+                fontWeight: "bold",
+                textAlign: "center"
+              }));
+
+              return am5.Bullet.new(root, {
+                locationX: dataItem.locationX,
+                locationY: dataItem.locationY,
+                sprite: annotation
+              });
+            }
+          });
+
+          // Create series for CPU usage
+          var cpuSeries = chart.series.push(
+            am5xy.LineSeries.new(root, {
+              name: "CPU Usage",
+              xAxis: xAxis,
+              yAxis: yAxis,
+              valueYField: "cpu_usage",
+              valueXField: "start_time",
+              tooltip: am5.Tooltip.new(root, {
+                labelText: "{name}: {valueY}",
+              }),
+            })
+          );
+          cpuSeries.strokes.template.setAll({ stroke: am5.color("#87CEEB"), strokeWidth: 2 });
+          cpuSeries.bullets.push(function (root, series, dataItem) {
+            return am5.Bullet.new(root, {
+              sprite: am5.Circle.new(root, {
+                radius: 5,
+                fill: am5.color("#87CEEB"), // Light blue bullets for CPU Usage
+              }),
+            });
+          });
+
+          var axisRange_2 = yAxis.createAxisRange(yAxis.makeDataItem({
+            value: 15,
+            endValue: 15
+          }));
+
+          // Customize the appearance of the AxisRange (the bold red line)
+          axisRange_2.get("grid").setAll({
+            stroke: am5.color(0x808080), // Set grid line color to red
+            strokeWidth: 2,
+            strokeOpacity: 1
+          });
+
+          // Data
+          var rawData = [
+            { start_time: new Date("1/8/2025 15:00").getTime(), ram_usage: 13, cpu_usage: 56 },
+            { start_time: new Date("1/8/2025 16:00").getTime(), ram_usage: 13, cpu_usage: 5 },
+            { start_time: new Date("1/8/2025 17:00").getTime(), ram_usage: 15, cpu_usage: 28 },
+            { start_time: new Date("1/8/2025 18:00").getTime(), ram_usage: 18, cpu_usage: 52 },
+            { start_time: new Date("1/8/2025 19:00").getTime(), ram_usage: 13, cpu_usage: 78 },
+            { start_time: new Date("1/8/2025 20:00").getTime(), ram_usage: 10, cpu_usage: 54 },
+            { start_time: new Date("1/8/2025 21:00").getTime(), ram_usage: 15, cpu_usage: 17 },
+            { start_time: new Date("1/8/2025 22:00").getTime(), ram_usage: 12, cpu_usage: 51 },
+            { start_time: new Date("1/8/2025 23:00").getTime(), ram_usage: 15, cpu_usage: 54 },
+            { start_time: new Date("1/9/2025 0:00").getTime(), ram_usage: 6, cpu_usage: 64 },
+            { start_time: new Date("1/9/2025 1:00").getTime(), ram_usage: 19, cpu_usage: 46 },
+            { start_time: new Date("1/9/2025 2:00").getTime(), ram_usage: 10, cpu_usage: 38 },
+            { start_time: new Date("1/9/2025 3:00").getTime(), ram_usage: 12, cpu_usage: 61 },
+          ];
+
+          ramSeries.data.setAll(rawData);
+          cpuSeries.data.setAll(rawData);
+
+          // Add legend
+          var legend = chart.children.push(am5.Legend.new(root, {}));
+          legend.data.setAll([ramSeries, cpuSeries]);
+
+          // Add cursor
+          var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
+            xAxis: xAxis
+          }));
+          cursor.lineY.set("visible", false);
+
+          // Make stuff animate on load
+          chart.appear(1000, 100);
+        }); // end am5.ready()
+        insertTelemetry(EVENT_SOURCE_SPECTRA, AGENT_ORCHESTRATION_LOAD_RAM_GRAPH, "RAM Graph loaded successfully", JSON.stringify({ "Chart Data": sampleData }));
+
+      }
+
+      
+      function createFourthGraph(containerId, sampleData) {
+        am5.ready(function () {
+          // Create root element
+          var root = am5.Root.new(containerId);
+
+          // Set themes
+          root.setThemes([am5themes_Animated.new(root)]);
+
+          // Generate chart data from chartData4
+          var data = chartData4.map(function (entry) {
+            return {
+              date: new Date(entry.start_time).getTime(), // Convert start_time to Date object (in milliseconds)
+              value: entry.cpu_usage // Using 'cpu_usage' field instead of 'ram_usage'
+            };
+          });
+
+          // Create chart
+          var chart = root.container.children.push(am5xy.XYChart.new(root, {
+            focusable: true,
+            panX: true,
+            panY: true,
+            wheelX: "panX",
+            wheelY: "zoomX",
+            pinchZoomX: true,
+            paddingLeft: 0
+          }));
+
+          // Create axes
+          var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
+            maxDeviation: 0.5,
+            groupData: false,
+            extraMax: 0.1,
+            extraMin: -0.1,
+            baseInterval: {
+              timeUnit: "hour",
+              count: 1
+            },
+            dateFormats: {
+              hour: "MMM d, HH:mm"
+            },
+            periodChangeDateFormats: {
+              hour: "MMM d, HH:mm"
+            },
+            renderer: am5xy.AxisRendererX.new(root, {
+              minorGridEnabled: true,
+              minGridDistance: 70
+            }),
+            tooltip: am5.Tooltip.new(root, {})
+          }));
+
+          var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+            renderer: am5xy.AxisRendererY.new(root, {
+              minGridDistance: 50 // Adjusts the spacing between grid lines
+            }),
+            min: 0,                // Ensures the Y-axis starts at 0
+            maxPrecision: 0,       // Ensures no decimal values on the Y-axis
+            step: 5                // Sets the step increment to 5
+          }));
+
+          // Create AxisRange for the red and bold line at Y=60 (Threshold)
+          var axisRange = yAxis.createAxisRange(yAxis.makeDataItem({
+            value: 60,
+            endValue: 60
+          }));
+
+          // Customize the appearance of the AxisRange (the bold red line)
+          axisRange.get("grid").setAll({
+            stroke: am5.color(0xff0000), // Set grid line color to red
+            strokeWidth: 2,
+            strokeOpacity: 1
+          });
+
+          // Add series
+          var series = chart.series.push(am5xy.LineSeries.new(root, {
+            name: "CPU Usage Series", // Updated name to reflect new data context
+            xAxis: xAxis,
+            yAxis: yAxis,
+            valueYField: "value",
+            valueXField: "date",
+            stroke: am5.color(0x4a90e2),
+            strokeWidth: 2,
+            tooltip: am5.Tooltip.new(root, {
+              pointerOrientation: "horizontal",
+              labelText: "{valueY}"
+            })
+          }));
+
+          // Add bullet to highlight the points
+          series.bullets.push(function (root, series, dataItem) {
+            var container = am5.Container.new(root, {});
+            var circle = container.children.push(am5.Circle.new(root, {
+              radius: 4,
+              fill: am5.color(0x4a90e2)
+            }));
+
+            return am5.Bullet.new(root, {
+              locationX: undefined,
+              sprite: container
+            });
+          });
+
+          // Add custom annotations or tooltips for values exceeding the threshold of 60
+          series.bullets.push(function (root, series, dataItem) {
+            var dataValue = dataItem.dataContext.value;
+            if (dataValue > 60) {  // Only add annotations for values exceeding 60
+              var annotation = am5.Container.new(root, {});
+
+              // Red circle to indicate breached point
+              var circle = annotation.children.push(am5.Circle.new(root, {
+                radius: 6,
+                fill: am5.color(0xff0000)  // Red circle
+              }));
+
+              // Label with black text to indicate threshold breach
+              var label = annotation.children.push(am5.Label.new(root, {
+                text: "Budget Exceed\n" + new Date(dataItem.dataContext.date).toLocaleString(),
+                x: 15,  // offset for label
+                y: -10, // offset for label
+                fill: am5.color(0x000000),  // Black text
+                fontSize: 12,
+                fontWeight: "bold",
+                textAlign: "center"
+              }));
+
+              return am5.Bullet.new(root, {
+                locationX: dataItem.locationX,
+                locationY: dataItem.locationY,
+                sprite: annotation
+              });
+            }
+          });
+
+          // Set initial data to the series
+          series.data.setAll(data);
+
+          // Add cursor
+          var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
+            xAxis: xAxis
+          }));
+          cursor.lineY.set("visible", false);
+
+          // Make stuff animate on load
+          chart.appear(1000, 100);
+        }); // end am5.ready()
+        insertTelemetry(EVENT_SOURCE_SPECTRA, AGENT_ORCHESTRATION_LOAD_AGENT_TRACKING_GRAPH, "Agent Tracking Graph loaded successfully", JSON.stringify({ "Chart Data": sampleData }));
+
+      }
+
+      // Define the data
+      const chartData1 = [
+        { "start_time": "2025-01-08 15:00:00", "cost": 6.05200623 },
+        { "start_time": "2025-01-08 16:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-08 17:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-08 18:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-08 19:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-08 20:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-08 21:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-08 22:00:00", "cost": 6.05200623 },
+        { "start_time": "2025-01-08 23:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-09 00:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-09 01:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-09 02:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-09 03:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-09 04:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-09 05:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-09 06:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-09 07:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-09 08:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-09 09:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-09 10:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-09 11:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-09 12:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-09 13:00:00", "cost": 0.0498761 },
+        { "start_time": "2025-01-09 14:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-09 15:00:00", "cost": 0.0 },
+        { "start_time": "2025-01-09 16:00:00", "cost": 9.049941500000001 },
+        { "start_time": "2025-01-09 17:00:00", "cost": 0.09998867 },
+        { "start_time": "2025-01-09 18:00:00", "cost": 16.0006 }
+      ];
+
+      const chartData2 = [
+        {
+          'start_time': '1/8/2025 15: 00', 'timeout': 43
+        },
+        {
+          'start_time': '1/8/2025 16: 00', 'timeout': 47
+        },
+        {
+          'start_time': '1/8/2025 17: 00', 'timeout': 7
+        },
+        {
+          'start_time': '1/8/2025 18: 00', 'timeout': 41
+        },
+        {
+          'start_time': '1/8/2025 19: 00', 'timeout': 40
+        },
+        {
+          'start_time': '1/8/2025 20: 00', 'timeout': 1
+        },
+        {
+          'start_time': '1/8/2025 21: 00', 'timeout': 41
+        },
+        {
+          'start_time': '1/8/2025 22: 00', 'timeout': 7
+        },
+        {
+          'start_time': '1/8/2025 23: 00', 'timeout': 54
+        },
+        {
+          'start_time': '1/9/2025 0: 00', 'timeout': 49
+        },
+        {
+          'start_time': '1/9/2025 1: 00', 'timeout': 59
+        },
+        {
+          'start_time': '1/9/2025 2: 00', 'timeout': 2
+        },
+        {
+          'start_time': '1/9/2025 3: 00', 'timeout': 50
+        },
+        {
+          'start_time': '1/9/2025 4: 00', 'timeout': 15
+        },
+        {
+          'start_time': '1/9/2025 5: 00', 'timeout': 41
+        },
+        {
+          'start_time': '1/9/2025 6: 00', 'timeout': 38
+        },
+        {
+          'start_time': '1/9/2025 7: 00', 'timeout': 55
+        },
+        {
+          'start_time': '1/9/2025 8: 00', 'timeout': 55
+        },
+        {
+          'start_time': '1/9/2025 9: 00', 'timeout': 37
+        },
+        {
+          'start_time': '1/9/2025 10: 00', 'timeout': 29
+        },
+        {
+          'start_time': '1/9/2025 11: 00', 'timeout': 67
+        },
+        {
+          'start_time': '1/9/2025 12: 00', 'timeout': 43
+        },
+        {
+          'start_time': '1/9/2025 13: 00', 'timeout': 29
+        },
+        {
+          'start_time': '1/9/2025 14: 00', 'timeout': 76
+        },
+        {
+          'start_time': '1/9/2025 15: 00', 'timeout': 29
+        },
+        {
+          'start_time': '1/9/2025 16: 00', 'timeout': 49
+        },
+        {
+          'start_time': '1/9/2025 17: 00', 'timeout': 32
+        },
+        {
+          'start_time': '1/9/2025 18: 00', 'timeout': 48
+        }
+      ]
+
+      const chartData3 = [
+        {
+          'start_time': '1/8/2025 15: 00', 'ram_usage': 13
+        },
+        {
+          'start_time': '1/8/2025 16: 00', 'ram_usage': 13
+        },
+        {
+          'start_time': '1/8/2025 17: 00', 'ram_usage': 15
+        },
+        {
+          'start_time': '1/8/2025 18: 00', 'ram_usage': 18
+        },
+        {
+          'start_time': '1/8/2025 19: 00', 'ram_usage': 13
+        },
+        {
+          'start_time': '1/8/2025 20: 00', 'ram_usage': 10
+        },
+        {
+          'start_time': '1/8/2025 21: 00', 'ram_usage': 15
+        },
+        {
+          'start_time': '1/8/2025 22: 00', 'ram_usage': 12
+        },
+        {
+          'start_time': '1/8/2025 23: 00', 'ram_usage': 15
+        },
+        {
+          'start_time': '1/9/2025 0: 00', 'ram_usage': 6
+        },
+        {
+          'start_time': '1/9/2025 1: 00', 'ram_usage': 19
+        },
+        {
+          'start_time': '1/9/2025 2: 00', 'ram_usage': 8
+        },
+        {
+          'start_time': '1/9/2025 3: 00', 'ram_usage': 18
+        },
+        {
+          'start_time': '1/9/2025 4: 00', 'ram_usage': 10
+        },
+        {
+          'start_time': '1/9/2025 5: 00', 'ram_usage': 13
+        },
+        {
+          'start_time': '1/9/2025 6: 00', 'ram_usage': 17
+        },
+        {
+          'start_time': '1/9/2025 7: 00', 'ram_usage': 13
+        },
+        {
+          'start_time': '1/9/2025 8: 00', 'ram_usage': 6
+        },
+        {
+          'start_time': '1/9/2025 9: 00', 'ram_usage': 11
+        },
+        {
+          'start_time': '1/9/2025 10: 00', 'ram_usage': 4
+        },
+        {
+          'start_time': '1/9/2025 11: 00', 'ram_usage': 8
+        },
+        {
+          'start_time': '1/9/2025 12: 00', 'ram_usage': 7
+        },
+        {
+          'start_time': '1/9/2025 13: 00', 'ram_usage': 2
+        },
+        {
+          'start_time': '1/9/2025 14: 00', 'ram_usage': 11
+        },
+        {
+          'start_time': '1/9/2025 15: 00', 'ram_usage': 7
+        },
+        {
+          'start_time': '1/9/2025 16: 00', 'ram_usage': 19
+        },
+        {
+          'start_time': '1/9/2025 17: 00', 'ram_usage': 11
+        },
+        {
+          'start_time': '1/9/2025 18: 00', 'ram_usage': 8
+        }
+      ]
+
+      const chartData4 = [
+        {
+          'start_time': '1/8/2025 15: 00', 'cpu_usage': 56
+        },
+        {
+          'start_time': '1/8/2025 16: 00', 'cpu_usage': 5
+        },
+        {
+          'start_time': '1/8/2025 17: 00', 'cpu_usage': 28
+        },
+        {
+          'start_time': '1/8/2025 18: 00', 'cpu_usage': 52
+        },
+        {
+          'start_time': '1/8/2025 19: 00', 'cpu_usage': 78
+        },
+        {
+          'start_time': '1/8/2025 20: 00', 'cpu_usage': 54
+        },
+        {
+          'start_time': '1/8/2025 21: 00', 'cpu_usage': 17
+        },
+        {
+          'start_time': '1/8/2025 22: 00', 'cpu_usage': 51
+        },
+        {
+          'start_time': '1/8/2025 23: 00', 'cpu_usage': 54
+        },
+        {
+          'start_time': '1/9/2025 0: 00', 'cpu_usage': 64
+        },
+        {
+          'start_time': '1/9/2025 1: 00', 'cpu_usage': 46
+        },
+        {
+          'start_time': '1/9/2025 2: 00', 'cpu_usage': 32
+        },
+        {
+          'start_time': '1/9/2025 3: 00', 'cpu_usage': 21
+        },
+        {
+          'start_time': '1/9/2025 4: 00', 'cpu_usage': 71
+        },
+        {
+          'start_time': '1/9/2025 5: 00', 'cpu_usage': 63
+        },
+        {
+          'start_time': '1/9/2025 6: 00', 'cpu_usage': 43
+        },
+        {
+          'start_time': '1/9/2025 7: 00', 'cpu_usage': 19
+        },
+        {
+          'start_time': '1/9/2025 8: 00', 'cpu_usage': 28
+        },
+        {
+          'start_time': '1/9/2025 9: 00', 'cpu_usage': 20
+        },
+        {
+          'start_time': '1/9/2025 10: 00', 'cpu_usage': 77
+        },
+        {
+          'start_time': '1/9/2025 11: 00', 'cpu_usage': 66
+        },
+        {
+          'start_time': '1/9/2025 12: 00', 'cpu_usage': 9
+        },
+        {
+          'start_time': '1/9/2025 13: 00', 'cpu_usage': 37
+        },
+        {
+          'start_time': '1/9/2025 14: 00', 'cpu_usage': 5
+        },
+        {
+          'start_time': '1/9/2025 15: 00', 'cpu_usage': 5
+        },
+        {
+          'start_time': '1/9/2025 16: 00', 'cpu_usage': 15
+        },
+        {
+          'start_time': '1/9/2025 17: 00', 'cpu_usage': 18
+        },
+        {
+          'start_time': '1/9/2025 18: 00', 'cpu_usage': 40
+        }
+      ]
+
+
+      createFirstGraph("amChartContainer1", chartData1)
+      createSecondGraph("amChartContainer2", chartData2)
+      createFourthGraph("amChartContainer4", chartData4)
+    }
+
+
+
+  </script>
+</body>
+
+{% endblock %}

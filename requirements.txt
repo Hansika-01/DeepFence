@@ -1,0 +1,21 @@
+Flask[async]
+requests==2.31.0
+debugpy # Required for debugging.
+
+google-adk 
+pyzipper 
+pandas 
+cryptography 
+papermill 
+mlflow 
+psycopg2-binary
+flask-cors
+flask-socketio
+google-genai
+asyncio
+uuid
+subprocess.run
+pybase64
+google-cloud-firestore 
+google-auth
+a2a-sdk

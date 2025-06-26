@@ -1,0 +1,68 @@
+{
+  "details": {
+    "date": "2024-04-10",
+    "category": "DataCoSupplyChain",
+    "name": "DataCoSupplyChain.csv-Clustering-Nov22-23-12-40-15.enc.pkl",
+    "author": "djndjk"
+  },
+  "dataSecurity": {
+    "detectDataPoisoning": false,
+    "enableModelAccessControl": false,
+    "enableModelBackup": false,
+    "preventDataInputManipulation": false,
+    "preventDataLabelManipulation": false,
+    "preventDataInjections": false,
+    "preventLogicCorruption": false,
+    "enableDataMinimisation": false,
+    "enableDataCataloguePolicy": false
+  },
+  "security": {
+    "preventWeightTempering": false,
+    "preventModelManipulation": false,
+    "enableDifferentialPrivacy": false,
+    "enableResponsibleAI": false,
+    "enableLeastPrivilagePolicy": false,
+    "encryption": false,
+    "encryptionKey": "dyecjp1hce",
+    "password": false,
+    "PasswordText": "random password",
+    "anonymizePII": false
+  },
+  "modelUsage": {
+    "dailyLimit": "433",
+    "weeklyLimit": "1926",
+    "monthlyLimit": "10912",
+    "lockModel": false,
+    "preventWhiteBoxAttack": false,
+    "preventBlackBoxAttack": false,
+    "preventBadnets": false,
+    "enableResponsibleAI": false,
+    "enableLeastPrivilagePolicy": false,
+    "detectAdversarialInput": false
+  },
+  "modelDevelopment": {
+    "gradientMasking": false,
+    "defensiveDistillation": false,
+    "regularization": false,
+    "featureSqueezing": false,
+    "reformers": false,
+    "adaptativeMisinformation": false,
+    "neutralCleanse": false,
+    "modelguidedAnonymization": false,
+    "anonymization": "hourly"
+  },
+  "infraSturcture": {
+    "nodeDeactivation": false,
+    "deepContractiveNetwork": false,
+    "secureMultipartyComputation": false,
+    "defendModelDeployment": false,
+    "siemIntegration": false,
+    "envCompliance": false,
+    "modelTheft": false,
+    "certificateSpoofing": false
+  },
+  "modelHealth": {
+    "enableAlert": false,
+    "frequency": "hourly"
+  }
+}

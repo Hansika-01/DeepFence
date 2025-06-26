@@ -1,0 +1,186 @@
+[
+    {
+        "Agent": "DetectDataPoisoning",
+        "Error": "Dataset validation failed: unexpected data distribution shift detected"
+    },
+    {
+        "Agent": "EnableModelAccessControl",
+        "Error": "Access control setup failed: permission denied on model file"
+    },
+    {
+        "Agent": "EnableModelBackup",
+        "Error": "Backup creation failed: insufficient storage space"
+    },
+    {
+        "Agent": "PreventDataInputManipulation",
+        "Error": "Zipping failed: invalid password format"
+    },
+    {
+        "Agent": "PreventDataLabelManipulation",
+        "Error": "Encryption failed: unsupported file type"
+    },
+    {
+        "Agent": "PreventDataInjections",
+        "Error": "Injection prevention failed: malformed input detected"
+    },
+    {
+        "Agent": "PreventLogicCorruption",
+        "Error": "Logic validation failed: checksum mismatch"
+    },
+    {
+        "Agent": "EnableDataMinimisation",
+        "Error": "Column extraction failed: specified columns not found in dataset"
+    },
+    {
+        "Agent": "EnableDataCataloguePolicy",
+        "Error": "Validation failed: missing required columns ['Email', 'PurchaseAmount']"
+    },
+    {
+        "Agent": "GradientMasking",
+        "Error": "Gradient obfuscation failed: model architecture not supported"
+    },
+    {
+        "Agent": "DefensiveDistillation",
+        "Error": "Distillation training failed: label column 'Target' not found"
+    },
+    {
+        "Agent": "Regularization",
+        "Error": "Regularization application failed: invalid weight matrix"
+    },
+    {
+        "Agent": "FeatureSqueezing",
+        "Error": "Feature precision reduction failed: non-numeric features detected"
+    },
+    {
+        "Agent": "Reformers",
+        "Error": "Model reform failed: incompatible input dimensions"
+    },
+    {
+        "Agent": "AdaptativeMisinformation",
+        "Error": "Label flipping failed: binary label expected"
+    },
+    {
+        "Agent": "NeuralCleanse",
+        "Error": "Outlier removal failed: insufficient data points"
+    },
+    {
+        "Agent": "ModelguidedAnonymization",
+        "Error": "Anonymization failed: sensitive keys not found in record"
+    },
+    {
+        "Agent": "Anonymization",
+        "Error": "PII removal failed: dataset contains nested structures"
+    },
+    {
+        "Agent": "NodeDeactivation",
+        "Error": "Node deactivation failed: node not found in cluster"
+    },
+    {
+        "Agent": "DeepContractiveNetwork",
+        "Error": "Contractive penalty application failed: invalid weight format"
+    },
+    {
+        "Agent": "SecureMultipartyComputation",
+        "Error": "Secure computation failed: party synchronization timeout"
+    },
+    {
+        "Agent": "DefendModelDeployment",
+        "Error": "Deployment defense failed: environment configuration mismatch"
+    },
+    {
+        "Agent": "SiemIntegration",
+        "Error": "SIEM logging failed: connection refused"
+    },
+    {
+        "Agent": "EnvCompliance",
+        "Error": "Compliance check failed: missing environment variables"
+    },
+    {
+        "Agent": "ModelTheft",
+        "Error": "Theft detection failed: access logs corrupted"
+    },
+    {
+        "Agent": "CertificateSpoofing",
+        "Error": "Certificate validation failed: fingerprint mismatch"
+    },
+    {
+        "Agent": "NetworkHealthMonitor",
+        "Error": "Ping failed: host unreachable"
+    },
+    {
+        "Agent": "PreventWeightTempering",
+        "Error": "Model locking failed: file in use by another process"
+    },
+    {
+        "Agent": "PreventModelManipulation",
+        "Error": "Integrity check failed: reference hash not found"
+    },
+    {
+        "Agent": "EnableDifferentialPrivacy",
+        "Error": "Private training failed: epsilon value out of bounds"
+    },
+    {
+        "Agent": "Encryption",
+        "Error": "Base64 encoding failed: invalid JSON structure"
+    },
+    {
+        "Agent": "SetModelAccessPassword",
+        "Error": "Password setup failed: weak password policy violation"
+    },
+    {
+        "Agent": "AnonymizeCriticalPllFeatures",
+        "Error": "PII redaction failed: unstructured data format"
+    },
+    {
+        "Agent": "PreventModelDelete",
+        "Error": "Deletion protection failed: file permissions issue"
+    },
+    {
+        "Agent": "DecryptJsonData",
+        "Error": "Decryption failed: invalid encryption key"
+    },
+    {
+        "Agent": "LockModel",
+        "Error": "ZIP creation failed: source folder not found"
+    },
+    {
+        "Agent": "PreventWhiteBoxAttack",
+        "Error": "Weight hashing failed: model serialization error"
+    },
+    {
+        "Agent": "PreventBlackBoxAttack",
+        "Error": "Prediction failed: input shape mismatch"
+    },
+    {
+        "Agent": "PreventGreyBoxAttack",
+        "Error": "Information limitation failed: metadata leakage detected"
+    },
+    {
+        "Agent": "PreventBadnets",
+        "Error": "Trigger detection failed: pattern too vague"
+    },
+    {
+        "Agent": "EnableResponsibleAI",
+        "Error": "Execution logging failed: telemetry service unavailable"
+    },
+    {
+        "Agent": "EnableLeastPrivilagePolicy",
+        "Error": "Permission cleanup failed: admin user removal attempt"
+    },
+    {
+        "Agent": "DetectAdversialInput",
+        "Error": "Adversarial detection failed: invalid input range"
+    },
+    {
+        "Agent": "UnlockModel",
+        "Error": "Extraction failed: incorrect password"
+    },
+    {
+        "Agent": "ModelDriftAlerts",
+        "Error": "Alert generation failed: insufficient historical data"
+    },
+    {
+        "Agent": "HealthCheckFrequency",
+        "Error": "Health check failed: log file corrupted"
+    }
+]

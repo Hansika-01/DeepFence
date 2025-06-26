@@ -1,0 +1,386 @@
+{% extends "MasterHeader.html" %} {% block content %}
+
+<title>Deepfence - Protect and Secure your AI Investments</title>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/wc.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+
+<style>
+    /* Custom font for a clean look */
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f3f4f6;
+        /* Light gray background */
+    }
+
+    /* Ensure the main container takes at least the full viewport height */
+    #app-container {
+        min-height: 100vh;
+        margin: 20px;
+        width: 2000px;
+    }
+
+    #wordcloud {
+        width: 100%;
+        height: 240px;
+    }
+
+    #telemetryBarchart {
+        width: 100%;
+        height: 250px;
+    }
+
+    #aiAgentsStatusPie {
+        width: 100%;
+        height: 240px;
+    }
+
+    #datasetsPiechart {
+        width: 100%;
+        height: 250px;
+    }
+
+    #modelSafetyPiechart {
+        width: 100%;
+        height: 250px;
+    }
+
+    #threatMatrixBarchart {
+        width: 100%;
+        height: 250px;
+    }
+</style>
+
+<body>
+    <!-- Main Application Container -->
+    <div id="app-container" class="w-full max-w-7xl flex flex-col space-y-6">
+        <!-- Bottom Cards Container: Two cards, each 50% width -->
+        <div class="flex flex-col md:flex-row justify-between gap-6 w-full">
+
+            <!-- Bottom Left Card: ~50% Width -->
+            <div class="w-full md:w-[calc(50%-12px)] bg-white rounded-xl shadow-xl p-6 border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">AI Agents Status</h2>
+                <div id="aiAgentsStatusPie"></div>
+            </div>
+
+            <!-- Bottom Right Card: ~50% Width -->
+            <div class="w-full md:w-[calc(50%-12px)] bg-white rounded-xl shadow-xl p-6 border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Top Errors Reported by Agents</h2>
+                <div id="wordcloud"></div>
+            </div>
+        </div>
+
+        <!-- <div class="w-full rounded-xl shadow-2xl p-8 flex items-center justify-center" style="height: 50vh;">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Telemetry Statistics</h2>
+
+            <div id="barchart"></div>
+
+        </div> -->
+
+        <!-- Bottom Cards Container: Four cards, each 25% width on md+, stacked on smaller screens -->
+        <div class="flex flex-col md:flex-row justify-between gap-6 w-full">
+            <!-- Card 1 -->
+            <div class="w-full md:w-[calc(25%-18px)] bg-white rounded-xl shadow-xl p-6 border border-gray-200">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">AI Datasets</h2>
+                <div id="datasetsPiechart"></div>
+
+            </div>
+
+            <!-- Card 2 -->
+            <div class="w-full md:w-[calc(25%-18px)] bg-white rounded-xl shadow-xl p-6 border border-gray-200">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Model Safety</h2>
+                <div id="modelSafetyPiechart"></div>
+
+            </div>
+
+            <!-- Card 3 -->
+            <div class="w-full md:w-[calc(25%-18px)] bg-white rounded-xl shadow-xl p-6 border border-gray-200">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Threat Matrix</h2>
+                <div id="threatMatrixBarchart"></div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="w-full md:w-[calc(25%-18px)] bg-white rounded-xl shadow-xl p-6 border border-gray-200">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">AI Telemetry</h2>
+                <div id="telemetryBarchart"></div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Chart code -->
+    <script>
+        Swal.fire({ title: 'Getting Your Dashboard Ready...please wait' });
+        Swal.showLoading();
+        fetch('/FetchFromDatabase')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                loadBarChart(data.EventStatus, "telemetryBarchart")
+                loadPieChartWithLegends(data.EventStatus, "aiAgentsStatusPie")
+                datasetsPieData = [
+                    { value: 800, category: "Protected" },
+                    { value: 62, category: "Unprotected" },
+                ]
+                loadPieChartWithLegends(datasetsPieData, "datasetsPiechart")
+                modalSafetyPieData = [
+                    { value: 40, category: "Models" },
+                    { value: 5, category: "Vulnerabilities" },
+                ]
+                loadPieChartWithLegends(modalSafetyPieData, "modelSafetyPiechart")
+
+                threatMatrixBarData = [
+                    { value: 15, category: "threats" },
+                    { value: 10, category: "vulnerabilitues" },
+                    { value: 5, category: "breaches" },
+                    { value: 4, category: "thefts" },
+                    { value: 4, category: "expired" }]
+                loadBarChart(threatMatrixBarData, "threatMatrixBarchart")
+
+                logs_data = ""
+                fetch('static/logs.json')
+                    .then(response => response.text())
+                    .then(data => {
+                        logs_data = data.replaceAll("Agent", "").replaceAll("Error", "").replaceAll("failed", "")
+                        loadWordCloud(logs_data)
+
+
+                    })
+
+                // document.getElementById('successfullExecutions').innerText = data.EventStatus.Success
+                // document.getElementById('timeoutExecutions').innerText = data.EventStatus.Timeout
+                // document.getElementById('errorExecutions').innerText = data.EventStatus.Error
+                // document.getElementById('totalExecutions').innerText = data.EventStatus.Success + data.EventStatus.Timeout + data.EventStatus.Error
+                Swal.close()
+            })
+
+
+
+        function loadWordCloud(logs_data) {
+            am5.ready(function () {
+
+
+
+                // Create root element
+                // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+                var root = am5.Root.new("wordcloud");
+
+
+                // Set themes
+                // https://www.amcharts.com/docs/v5/concepts/themes/
+                root.setThemes([
+                    am5themes_Animated.new(root)
+                ]);
+
+                var zoomableContainer = root.container.children.push(
+                    am5.ZoomableContainer.new(root, {
+                        width: am5.p100,
+                        height: am5.p100,
+                        wheelable: true,
+                        pinchZoom: true
+                    })
+                );
+
+                var zoomTools = zoomableContainer.children.push(am5.ZoomTools.new(root, {
+                    target: zoomableContainer
+                }));
+
+
+                // Add series
+                // https://www.amcharts.com/docs/v5/charts/word-cloud/
+                var series = zoomableContainer.contents.children.push(am5wc.WordCloud.new(root, {
+                    maxCount: 100,
+                    minWordLength: 2,
+                    maxFontSize: am5.percent(35),
+                    text: logs_data
+                }));
+
+
+                // Configure labels
+                series.labels.template.setAll({
+                    paddingTop: 5,
+                    paddingBottom: 5,
+                    paddingLeft: 5,
+                    paddingRight: 5,
+                    fontFamily: "Courier New"
+                });
+
+            }); // end am5.ready()
+
+        }
+
+        function loadPieChartWithLegends(chartdata, chartdiv) {
+            console.log(data);
+            am5.ready(function () {
+
+                // Create root element
+                // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+                var root = am5.Root.new(chartdiv);
+
+
+                // Set themes
+                // https://www.amcharts.com/docs/v5/concepts/themes/
+                root.setThemes([
+                    am5themes_Animated.new(root)
+                ]);
+
+
+                // Create chart
+                // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/
+                var chart = root.container.children.push(am5percent.PieChart.new(root, {
+                    layout: root.verticalLayout
+                }));
+
+
+                // Create series
+                // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
+                var series = chart.series.push(am5percent.PieSeries.new(root, {
+                    valueField: "value",
+                    categoryField: "category"
+                }));
+
+
+                // Set data
+                // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
+                series.data.setAll(chartdata);
+
+
+                // Create legend
+                // https://www.amcharts.com/docs/v5/charts/percent-charts/legend-percent-series/
+                var legend = chart.children.push(am5.Legend.new(root, {
+                    centerX: am5.percent(50),
+                    x: am5.percent(50),
+                    marginTop: 15,
+                    marginBottom: 15
+                }));
+
+                legend.data.setAll(series.dataItems);
+
+
+                // Play initial series animation
+                // https://www.amcharts.com/docs/v5/concepts/animations/#Animation_of_series
+                series.appear(1000, 100);
+
+            }); // end am5.ready()
+
+        }
+
+        function loadBarChart(data, chartdiv) {
+            console.log(data)
+            am5.ready(function () {
+
+                // Create root element
+                // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+                var root = am5.Root.new(chartdiv);
+
+                // Set themes
+                // https://www.amcharts.com/docs/v5/concepts/themes/
+                root.setThemes([
+                    am5themes_Animated.new(root)
+                ]);
+
+                // Create chart
+                // https://www.amcharts.com/docs/v5/charts/xy-chart/
+                var chart = root.container.children.push(am5xy.XYChart.new(root, {
+                    panX: true,
+                    panY: true,
+                    wheelX: "panX",
+                    wheelY: "zoomX",
+                    pinchZoomX: true,
+                    paddingLeft: 0,
+                    paddingRight: 1
+                }));
+
+                // Add cursor
+                // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
+                var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+                cursor.lineY.set("visible", false);
+
+
+                // Create axes
+                // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+                var xRenderer = am5xy.AxisRendererX.new(root, {
+                    minGridDistance: 30,
+                    minorGridEnabled: true
+                });
+
+                xRenderer.labels.template.setAll({
+                    rotation: -90,
+                    centerY: am5.p50,
+                    centerX: am5.p100,
+                    paddingRight: 15
+                });
+
+                xRenderer.grid.template.setAll({
+                    location: 1
+                })
+
+                var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                    maxDeviation: 0.3,
+                    categoryField: "category",
+                    renderer: xRenderer,
+                    tooltip: am5.Tooltip.new(root, {})
+                }));
+
+                var yRenderer = am5xy.AxisRendererY.new(root, {
+                    strokeOpacity: 0.1
+                })
+
+                var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                    maxDeviation: 0.3,
+                    renderer: yRenderer
+                }));
+
+                // Create series
+                // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+                var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                    name: "Series 1",
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    valueYField: "value",
+                    sequencedInterpolation: true,
+                    categoryXField: "category",
+                    tooltip: am5.Tooltip.new(root, {
+                        labelText: "{valueY}"
+                    })
+                }));
+
+                series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0 });
+                series.columns.template.adapters.add("fill", function (fill, target) {
+                    return chart.get("colors").getIndex(series.columns.indexOf(target));
+                });
+
+                series.columns.template.adapters.add("stroke", function (stroke, target) {
+                    return chart.get("colors").getIndex(series.columns.indexOf(target));
+                });
+
+
+
+                console.log(data)
+                xAxis.data.setAll(data);
+                series.data.setAll(data);
+
+
+                // Make stuff animate on load
+                // https://www.amcharts.com/docs/v5/concepts/animations/
+                series.appear(1000);
+                chart.appear(1000, 100);
+
+            }); // end am5.ready()
+
+        }
+    </script>
+
+
+
+
+</body>
+{% endblock %}

@@ -1,0 +1,26 @@
+.top-message-bar {
+    background-color: lightyellow;
+    padding: 10px;
+    text-align: left;
+    font-size: 16px;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-message-bar .close-icon {
+    cursor: pointer;
+    padding: 5px;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.top-message-bar .message-text {
+    flex-grow: 1;
+}
+
+.top-message-bar .message-text div{
+    margin-bottom: 10px;
+}

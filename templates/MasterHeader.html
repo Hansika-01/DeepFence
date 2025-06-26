@@ -1,0 +1,1269 @@
+<!-- ored-toder.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.min.css" rel="stylesheet">
+
+  <!-- <link rel="stylesheet" href="static/CDN/landing/assets/css/main.css" /> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+    integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"
+    type="text/javascript"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css">
+  <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
+  <link href="static/CDN/scripts/messagebar.css" rel="stylesheet" />
+  <script src="static/CDN/scripts/messagebar.js" type="text/javascript"></script>
+  <script src="static/CDN/scripts/multilang.js" type="text/javascript"></script>
+  <script type="text/javascript" src="static/CDN/scripts/events-library.js"></script>
+
+  <link href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet">
+  <script src="https://ej2.syncfusion.com/javascript/demos/grid/checkbox-selection/datasource.js"
+    type="text/javascript"></script>
+  <link href="https://cdn.syncfusion.com/ej2/28.1.33/ej2-base/styles/material.css" rel="stylesheet">
+  <link href="https://cdn.syncfusion.com/ej2/28.1.33/ej2-popups/styles/material.css" rel="stylesheet">
+  <link href="https://cdn.syncfusion.com/ej2/28.1.33/ej2-navigations/styles/material.css" rel="stylesheet">
+  <script src="https://cdn.syncfusion.com/ej2/28.1.33/dist/ej2.min.js" type="text/javascript"></script>
+  <script src="https://cdn.syncfusion.com/ej2/syncfusion-helper.js" type="text/javascript"></script>
+
+  <!--style reference from app-->
+  <link href="static/CDN/scripts/style.css" rel="stylesheet" />
+  <!-- Essential JS 2 Carousel's dependent scripts -->
+
+  <!-- MasterHeader Style -->
+  <style>
+    div.--active>.menu {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    .notification .menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: 450px;
+      background-color: white;
+      box-shadow: 0px 0px 30px -5px rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      pointer-events: none;
+      opacity: 0;
+      transition: all 0.3s;
+    }
+
+    .notification>.menu>.header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 3.5em;
+      color: #4f565c;
+      font-weight: bold;
+    }
+
+    .notification>.menu>.header>.count {
+      width: 1.4em;
+      height: 1.4em;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #7578d4;
+      color: white;
+      border-radius: 50%;
+      margin-left: 0.5em;
+      padding-top: 1px;
+    }
+
+    .notification>.menu>.content {
+      color: #8e98a0;
+      height: 34em;
+      max-height: 34em;
+    }
+
+    .notification>.menu>.content>ul {
+      border-top: 1px solid #dce1e6;
+      border-bottom: 1px solid #dce1e6;
+    }
+
+    .notification>.menu>.content>ul>li {
+      padding: 0.4em 0.2em;
+      cursor: pointer;
+    }
+
+    .notification>.menu>.content>ul>li:nth-of-type(1n+2) {
+      border-top: 1px solid #dce1e6;
+    }
+
+    .notification>.menu>.content>ul>li.--unread {
+      background-color: #f1f3f6;
+    }
+
+    .notification>.menu>.content>ul>li>div {
+      display: flex;
+      align-items: center;
+    }
+
+    .notification>.menu>.content>ul>li>div>img {
+      -o-object-fit: cover;
+      object-fit: cover;
+      -o-object-position: center;
+      object-position: center;
+      width: 3em;
+      height: 3em;
+      border-radius: 50%;
+    }
+
+    .notification>.menu>.content>ul>li>div>span {
+      text-align: left;
+      line-height: 1.6;
+      margin-left: 1.3em;
+      font-size: 11px;
+    }
+
+    .notification>.menu>.footer {
+      display: flex;
+      /* justify-content: center;
+      align-items: center; */
+      text-align: center;
+      width: 100%;
+      height: 2em;
+      color: #7578d4;
+      font-weight: bold;
+    }
+
+    .notification>.menu>.footer>a {
+      width: inherit;
+      height: inherit;
+      text-decoration: underline;
+    }
+
+
+    .active {
+      color: yellowgreen !important;
+      font-weight: bold;
+    }
+
+    .keyboard-div {
+      /* max-width: 850px; */
+      width: 80%;
+      position: absolute;
+      margin-top: -300px;
+      z-index: 9999;
+    }
+
+
+
+    .simple-keyboard {
+      max-width: 850px;
+    }
+
+    .selected-link {
+      background-color: #555;
+      padding-top: 7px;
+      padding-left: 20px;
+      padding-right: 18px;
+      padding-bottom: 10px;
+      /* Example background color for selected link */
+      /* Example text color for selected link */
+      /* Add any other styles to highlight the selected link */
+    }
+
+    /* Center the "A" icons */
+    .font-sizes .font-icon span {
+      display: inline-block;
+      text-align: center;
+    }
+
+    /* Styles for the navigation drawer */
+    .nav-drawer {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      /* Adjust the right position */
+      width: 300px;
+      height: 100%;
+      --bs-bg-opacity: 1;
+      background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+      color: #fff;
+      z-index: 1000;
+      transition: right 0.5s ease;
+      /* Transition for right position */
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .nav-drawer.open {
+      right: 0;
+      /* Open position */
+    }
+
+    .nav-drawer h2 {
+      margin-bottom: 10px;
+    }
+
+    .nav-drawer ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-drawer li {
+      margin-bottom: 10px;
+    }
+
+    .nav-drawer button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      font-size: 16px;
+      width: 100%;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .nav-drawer button:hover {
+      background-color: #555;
+    }
+
+    .nav-drawer .sub-heading {
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    .nav-drawer select {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #555;
+      color: #fff;
+      border: none;
+      appearance: none;
+    }
+
+    .nav-drawer select:focus {
+      outline: none;
+    }
+
+    .nav-drawer .font-sizes {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-drawer .font-sizes-line-height {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-drawer .font-sizes-letter-spacing {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .keyboard-button {
+      font-size: 24px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .font-icon {
+      font-size: 24px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .selected-icon {
+      color: #ffcc00 !important;
+      /* Yellow color for selected icon */
+      background-color: #555 !important;
+    }
+
+    .small-font {
+      font-size: 14px;
+    }
+
+    .medium-font {
+      font-size: 18px;
+    }
+
+    .large-font {
+      font-size: 24px;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+    }
+
+
+
+    .gmail-icon-style {
+      /* Set desired styles for the icon, e.g., size, margin, etc. */
+      width: 20px;
+      height: 18px;
+      margin-right: 5px;
+    }
+
+    .github-icon-style {
+      width: 22px;
+      height: 20px;
+      margin-right: 5px;
+      color: white;
+    }
+
+    .outlook-icon-style {
+      /* Set desired styles for the icon, e.g., size, margin, etc. */
+      width: 20px;
+      height: 18px;
+      margin-right: 5px;
+    }
+
+    /* .tooltip {
+  position: relative;
+  display: inline-block;
+  /* color: white;
+  cursor: pointer; */
+    .disabled-span {
+      pointer-events: none;
+      color: gray;
+      /* Optionally, change the color to visually indicate it's disabled */
+    }
+
+    .floating-div {
+      position: absolute;
+      /* top: 50%; */
+      left: 55%;
+      width: 38%;
+      margin-left: -70px;
+      /* transform: translate(-50%,-50%); */
+      background-color: rgb(97, 97, 107);
+      color: #ffffff;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      z-index: 9;
+      transition: opacity 0.3s;
+    }
+
+    .container {
+      padding: 2% 0;
+    }
+
+    #container {
+      position: relative;
+      height: 100%;
+    }
+
+    #footer {
+      /* position: fixed; */
+      padding: 10px 10px 0px 10px;
+      bottom: 0;
+      width: 100%;
+      /* Height of the footer*/
+      height: 40px;
+      text-align: center;
+      /* background: grey; */
+    }
+
+    #grid-container {
+      height: calc(100% - 56px);
+      /* subtract height of FAB */
+    }
+
+    .e-checkbox-wrapper .e-frame.e-check,
+    .e-css.e-checkbox-wrapper .e-frame.e-check {
+      background-color: #2b0210;
+    }
+
+    .e-checkbox-wrapper .e-frame.e-check,
+    .e-css.e-checkbox-wrapper .e-frame.e-check:hover {
+      background-color: #2b0210;
+    }
+
+    #add-btn {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+    }
+
+    #navtabs .nav.nav-tabs {
+      --bs-nav-link-padding-x: 0;
+    }
+
+    #navtabs .nav-item {
+      font-size: 14px;
+      padding: 8px;
+    }
+
+    #navtabs .nav-item.active {
+      background-color: darkgrey;
+    }
+
+    #navtabs .nav-item.active .nav-link {
+      color: white !important;
+    }
+
+    #navtabs .nav-tabs .nav-link {
+      border: none;
+    }
+
+    #navtabs .nav-item.active .nav-link:hover {
+      border: none;
+    }
+
+    /* CSS styles for the modal content and form inputs */
+    /* .modal-content {
+      /* max-width: 800px; */
+    /* adjust as needed 
+    } */
+
+    #insertForm input[type="text"],
+    #insertForm select {
+      max-width: 80%;
+      /* adjust as needed */
+    }
+
+    .input_field {
+      width: 300px;
+
+    }
+
+    .modal-dialog {
+      /* max-width: 800px; */
+      /* adjust as needed */
+      margin: 0 auto;
+      /* centers the modal horizontally */
+    }
+
+    #navtabs {
+      /* add a clearfix to the container to clear floats */
+      overflow: auto;
+    }
+
+    .right-btn {
+      float: right !important;
+      position: relative;
+      margin-left: 10px;
+    }
+
+    input.btn {
+      float: right !important;
+      position: relative;
+      margin-left: 10px;
+    }
+
+    #navtabs button.btn {
+      float: right;
+      border: 2px solid black;
+    }
+
+    .form-group label,
+    legend {
+      margin: 5px !important;
+      font-weight: bold;
+    }
+
+    .form-group {
+      margin: 10px !important;
+    }
+
+    .form-group input[type="radio"],
+    .form-group input[type="checkbox"] {
+      font-weight: normal;
+    }
+
+    #insertForm input[type="text"],
+    #insertForm select {
+      max-width: 80%;
+      /* adjust as needed */
+    }
+
+    /* .nav-item:hover .dropdown-menu {
+            display: block;
+        } */
+    .nav-item:hover .dropdown-menu {
+      display: block;
+      background-color: #343a40;
+      /* Dark background color */
+    }
+
+    /* Add this style to customize the color of dropdown items */
+    .dropdown-item {
+      color: #ffffff;
+      /* Text color for dropdown items */
+    }
+
+    .dropdown-item:hover {
+      background-color: #495057;
+      /* Hover background color for dropdown items */
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+
+
+    div.--active>.menu {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    .notification .menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: 450px;
+      background-color: white;
+      box-shadow: 0px 0px 30px -5px rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      pointer-events: none;
+      opacity: 0;
+      transition: all 0.3s;
+    }
+
+    .notification>.menu>.header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 3.5em;
+      color: #4f565c;
+      font-weight: bold;
+    }
+
+    .notification>.menu>.header>.count {
+      width: 1.4em;
+      height: 1.4em;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #7578d4;
+      color: white;
+      border-radius: 50%;
+      margin-left: 0.5em;
+      padding-top: 1px;
+    }
+
+    .notification>.menu>.content {
+      color: #8e98a0;
+      height: 34em;
+      max-height: 34em;
+    }
+
+    .notification>.menu>.content>ul {
+      border-top: 1px solid #dce1e6;
+      border-bottom: 1px solid #dce1e6;
+    }
+
+    .notification>.menu>.content>ul>li {
+      padding: 0.4em 0.2em;
+      cursor: pointer;
+    }
+
+    .notification>.menu>.content>ul>li:nth-of-type(1n+2) {
+      border-top: 1px solid #dce1e6;
+    }
+
+    .notification>.menu>.content>ul>li.--unread {
+      background-color: #f1f3f6;
+    }
+
+    .notification>.menu>.content>ul>li>div {
+      display: flex;
+      align-items: center;
+    }
+
+    .notification>.menu>.content>ul>li>div>img {
+      -o-object-fit: cover;
+      object-fit: cover;
+      -o-object-position: center;
+      object-position: center;
+      width: 3em;
+      height: 3em;
+      border-radius: 50%;
+    }
+
+    .notification>.menu>.content>ul>li>div>span {
+      text-align: left;
+      line-height: 1.6;
+      margin-left: 1.3em;
+      font-size: 11px;
+    }
+
+    .notification>.menu>.footer {
+      display: flex;
+      /* justify-content: center;
+      align-items: center; */
+      text-align: center;
+      width: 100%;
+      height: 2em;
+      color: #7578d4;
+      font-weight: bold;
+    }
+
+    .notification>.menu>.footer>a {
+      width: inherit;
+      height: inherit;
+      text-decoration: underline;
+    }
+
+    header {
+      background-color: #03260c;
+      color: white;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+    }
+
+    nav ul li {
+      margin-left: 20px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #ff5722;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+      }
+
+      nav ul {
+        flex-direction: column;
+      }
+
+      nav ul li {
+        margin: 10px 0;
+      }
+    }
+
+    .active {
+      color: yellowgreen !important;
+      font-weight: bold;
+    }
+
+    .keyboard-div {
+      /* max-width: 850px; */
+      width: 80%;
+      position: absolute;
+      margin-top: -300px;
+      z-index: 9999;
+    }
+
+    /* input {
+      width: 50%;
+      height: 100px;
+      padding: 20px;
+      font-size: 20px;
+      border: none;
+      box-sizing: border-box;
+    } */
+
+    .simple-keyboard {
+      max-width: 850px;
+    }
+
+    .selected-link {
+      background-color: #555;
+      padding-top: 7px;
+      padding-left: 20px;
+      padding-right: 18px;
+      padding-bottom: 10px;
+      /* Example background color for selected link */
+      /* Example text color for selected link */
+      /* Add any other styles to highlight the selected link */
+    }
+
+    /* Center the "A" icons */
+    .font-sizes .font-icon span {
+      display: inline-block;
+      text-align: center;
+    }
+
+    /* Styles for the navigation drawer */
+    .nav-drawer {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      /* Adjust the right position */
+      width: 300px;
+      height: 100%;
+      --bs-bg-opacity: 1;
+      background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+      color: #fff;
+      z-index: 1000;
+      transition: right 0.5s ease;
+      /* Transition for right position */
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .nav-drawer.open {
+      right: 0;
+      /* Open position */
+    }
+
+    .nav-drawer h2 {
+      margin-bottom: 10px;
+    }
+
+    .nav-drawer ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-drawer li {
+      margin-bottom: 10px;
+    }
+
+    .nav-drawer button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      font-size: 16px;
+      width: 100%;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .nav-drawer button:hover {
+      background-color: #555;
+    }
+
+    .nav-drawer .sub-heading {
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    .nav-drawer select {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #555;
+      color: #fff;
+      border: none;
+      appearance: none;
+    }
+
+    .nav-drawer select:focus {
+      outline: none;
+    }
+
+    .nav-drawer .font-sizes {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-drawer .font-sizes-line-height {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-drawer .font-sizes-letter-spacing {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .keyboard-button {
+      font-size: 24px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .font-icon {
+      font-size: 24px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .selected-icon {
+      color: #ffcc00 !important;
+      /* Yellow color for selected icon */
+      background-color: #555 !important;
+    }
+
+    .small-font {
+      font-size: 14px;
+    }
+
+    .medium-font {
+      font-size: 18px;
+    }
+
+    .large-font {
+      font-size: 24px;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+    }
+
+
+
+    .gmail-icon-style {
+      /* Set desired styles for the icon, e.g., size, margin, etc. */
+      width: 20px;
+      height: 18px;
+      margin-right: 5px;
+    }
+
+    .leaf-icon-style {
+      /* Set desired styles for the icon, e.g., size, margin, etc. */
+      width: 35px;
+      height: 35px;
+      margin-left: 5px;
+      margin-top: 8px;
+      cursor: pointer;
+    }
+
+    .github-icon-style {
+      width: 22px;
+      height: 20px;
+      margin-right: 5px;
+      color: white;
+    }
+
+    .outlook-icon-style {
+      /* Set desired styles for the icon, e.g., size, margin, etc. */
+      width: 20px;
+      height: 18px;
+      margin-right: 5px;
+    }
+
+    /* .tooltip {
+  position: relative;
+  display: inline-block;
+  /* color: white;
+  cursor: pointer; */
+    .disabled-span {
+      pointer-events: none;
+      color: gray;
+      /* Optionally, change the color to visually indicate it's disabled */
+    }
+
+    .floating-div {
+      position: absolute;
+      /* top: 50%; */
+      left: 55%;
+      width: 38%;
+      margin-left: -70px;
+      /* transform: translate(-50%,-50%); */
+      background-color: rgb(97, 97, 107);
+      color: #ffffff;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      z-index: 9;
+      transition: opacity 0.3s;
+    }
+
+    /* .container {
+      padding: 2% 0;
+    } */
+
+    #container {
+      position: relative;
+      height: 100%;
+    }
+
+    #footer {
+      position: fixed;
+      padding: 10px 10px 0px 10px;
+      bottom: 0;
+      width: 100%;
+      /* Height of the footer*/
+      height: 40px;
+      text-align: center;
+      /* background: grey; */
+    }
+
+    #grid-container {
+      height: calc(100% - 56px);
+      /* subtract height of FAB */
+    }
+
+    .e-checkbox-wrapper .e-frame.e-check,
+    .e-css.e-checkbox-wrapper .e-frame.e-check {
+      background-color: #2b0210;
+    }
+
+    .e-checkbox-wrapper .e-frame.e-check,
+    .e-css.e-checkbox-wrapper .e-frame.e-check:hover {
+      background-color: #2b0210;
+    }
+
+    #add-btn {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+    }
+
+    #navtabs .nav.nav-tabs {
+      --bs-nav-link-padding-x: 0;
+    }
+
+    #navtabs .nav-item {
+      font-size: 14px;
+      padding: 8px;
+    }
+
+    #navtabs .nav-item.active {
+      background-color: darkgrey;
+    }
+
+    #navtabs .nav-item.active .nav-link {
+      color: white !important;
+    }
+
+    #navtabs .nav-tabs .nav-link {
+      border: none;
+    }
+
+    #navtabs .nav-item.active .nav-link:hover {
+      border: none;
+    }
+
+    /* CSS styles for the modal content and form inputs */
+    /* .modal-content {
+      max-width: 800px;
+      /* adjust as needed */
+    /* } */
+    */ #insertForm input[type="text"],
+    #insertForm select {
+      max-width: 80%;
+      /* adjust as needed */
+    }
+
+    .input_field {
+      width: 300px;
+
+    }
+
+    /* .modal-dialog {
+      max-width: 800px;
+      /* adjust as needed */
+    /* margin: 0 auto; */
+    /* centers the modal horizontally */
+    /* } */
+
+    */ #navtabs {
+      /* add a clearfix to the container to clear floats */
+      overflow: auto;
+    }
+
+    .right-btn {
+      float: right !important;
+      position: relative;
+      margin-left: 10px;
+    }
+
+    input.btn {
+      float: right !important;
+      position: relative;
+      margin-left: 10px;
+    }
+
+    #navtabs button.btn {
+      float: right;
+      border: 2px solid black;
+    }
+
+    .form-group label,
+    legend {
+      margin: 5px !important;
+      font-weight: bold;
+    }
+
+    .form-group {
+      margin: 10px !important;
+    }
+
+    .form-group input[type="radio"],
+    .form-group input[type="checkbox"] {
+      font-weight: normal;
+    }
+
+    #insertForm input[type="text"],
+    #insertForm select {
+      max-width: 80%;
+      /* adjust as needed */
+    }
+
+    /* .nav-item:hover .dropdown-menu {
+            display: block;
+        } */
+    .nav-item:hover .dropdown-menu {
+      display: block;
+      background-color: #343a40;
+      /* Dark background color */
+    }
+
+    /* Add this style to customize the color of dropdown items */
+    .dropdown-item {
+      color: #ffffff;
+      /* Text color for dropdown items */
+    }
+
+    .dropdown-item:hover {
+      background-color: #495057;
+      /* Hover background color for dropdown items */
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+
+    /* NEW: Flex container for sidebar and content */
+    #main-container {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      /* Make it take full height of the body */
+    }
+
+    /* Syncfusion Sidebar Customization */
+    #sidebar-wrapper {
+      background-color: #03260c;
+      /* Dark background for sidebar */
+      color: white;
+      /* Explicitly define width here if Syncfusion sidebar type doesn't handle it
+               or if you want to override its default. The JS still sets its internal width. */
+      width: 100px;
+      /* Match the JS config for clarity and initial render */
+      flex-shrink: 0;
+      /* Prevent sidebar from shrinking */
+    }
+
+    #sidebar-wrapper .e-sidebar-content {
+      padding: 10px 5px;
+      /* Adjust padding for compact view */
+      box-sizing: border-box;
+      height: 100%;
+      /* Ensure content fills sidebar height */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* Center items horizontally in compact view */
+      /* Allow sidebar content to scroll if too long */
+    }
+
+    /* Top Mail/Chat/Meet icons */
+    .sidebar-icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 0;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 0.8em;
+      color: #ccc;
+      /* Lighter text color */
+    }
+
+    .sidebar-icon-item:hover {
+      background-color: #555;
+    }
+
+    .sidebar-icon {
+      font-size: 2em;
+      /* Larger icon size */
+      margin-bottom: 5px;
+    }
+
+    hr {
+      width: 80%;
+      border-color: #555;
+      margin: 15px 0;
+    }
+
+    /* Main navigation links */
+    #sidebar-links {
+      list-style: none;
+      /* Remove default list bullets */
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      /* Make list take full sidebar width */
+    }
+
+    #sidebar-links .e-list-item {
+      padding: 15px 5px;
+      /* Adjust padding for links */
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-align: center;
+      /* Center text for compact view */
+      white-space: nowrap;
+      /* Prevent text wrapping */
+      overflow: hidden;
+      /* Hide overflow text */
+      text-overflow: ellipsis;
+      /* Add ellipsis if text overflows */
+      font-size: 0.9em;
+      /* Smaller font for compact view */
+    }
+
+    #sidebar-links .e-list-item:hover {
+      background-color: #555;
+    }
+
+    #sidebar-links .e-list-item.e-active {
+      background-color: #007bff;
+      font-weight: bold;
+    }
+    html, body {
+    height: 100%; /* Makes both html and body take up the full viewport height */
+    margin: 0; /* Removes default margin */
+    padding: 0; /* Removes default padding */
+    font-family: 'Inter', sans-serif; /* Recommended font */
+    box-sizing: border-box; /* Ensures padding and borders are included in the element's total width/height */
+    overflow-y: auto; /* Enables vertical scrolling on the body if content overflows */
+    -webkit-overflow-scrolling: touch; /* Provides smooth, native-like scrolling on iOS devices */
+    background-color: #f3f4f6; /* A light background color (Tailwind's bg-gray-100) */
+    color: #1f2937; /* A dark text color (Tailwind's text-gray-800) */
+}
+  </style>
+</head>
+
+<body>
+  <div style="position:inherit;">
+   
+    
+    <header id="main-header">
+      <div class="logo" id="navheadertext">
+        <img src="static/images/DeepFenceLogo.png" alt="DeepFence Logo" style="height: 2.5rem;" class="h-10" onclick="window.top.location.href='/AgentDashboard';">
+      </div>
+
+      <nav>
+
+        <ul style="margin-bottom: 0rem;">
+          <!-- <span class="" id="welcome_text" style="font-size: 15px;margin-top: 8px;margin-right: 3px;">Welcome&nbsp
+          </span><span class="" id="inner_welcome_text" style="font-size: 15px;margin-top: 8px;"></span> -->
+          
+          <li style="margin-top: 8px;margin-right: 0px;"><a href="/Contact">Contact</a></li>
+         
+          <li><a class="nav-link text-white" href="/" id="logout"
+              style="margin-right:10px;margin-left:15px;margin-top: -5px;"><i class="bi bi-box-arrow-in-right me-1"
+                style="font-size: 30px;"></i></a>
+          </li>
+
+        </ul>
+
+
+
+        <!-- Navbar End -->
+      </nav>
+    </header>
+
+  </div>
+
+  <div class="floating-div" id="myTooltip"></div>
+
+
+
+  <div id="main-container">
+    <div id="sidebar-wrapper">
+      <div class="e-sidebar-content">
+        <div class="sidebar-icon-item" onclick="window.top.location.href='/AgentDashboard';">
+          <span class="sidebar-icon"> 📊 </span> <span>Dashboard</span>
+        </div>
+        <div class="sidebar-icon-item" onclick="window.top.location.href='/AgenticWorkflow';">
+          <span class="sidebar-icon">▶️</span> <span>Execution</span>
+        </div>
+        <div class="sidebar-icon-item" onclick="window.top.location.href='/AgentTelemetry';">
+          <span class="sidebar-icon">⚙️</span> <span>Telemetry</span>
+        </div>
+        <!-- <div class="sidebar-icon-item" data-url="/">
+          <span class="sidebar-icon">👤</span> <span>Contact</span>
+        </div> -->
+      </div>
+    </div>
+
+    <div id="child-content">
+      {% block content %}
+      <h1>Welcome!</h1>
+      <p>This content is loaded directly from the server on initial page load.</p>
+      {% endblock %}
+    </div>
+  </div>
+
+
+<!-- 
+	<div id="footer" style="text-align: center; padding: 15px; color: #080808;">
+
+   
+      <ul class="menu">
+        &copy; 2025 DeepFence. All rights reserved.
+      </ul>
+
+    </div> -->
+  
+  <script>
+
+
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+{% extends "MasterHeader.html" %} {% block content %}
+
+    
+    <title>Deepfence - Protect and Secure your AI Investments</title>
+    <!-- <link rel="icon" type="image/png" sizes="32x32" href="static/CDN/images/trayicon.png"> -->
+
+    <!-- Tailwind CSS for overall page styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        
+        /* Custom styles to ensure the grid container respects responsive design */
+        #grid-container {
+            width: 110%;
+            max-width: 1324px; /* Max width for larger screens */
+            background-color: #fff;
+            border-radius: 12px; /* Rounded corners */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        /* Syncfusion Grid specific styles (adjust if needed for deeper customization) */
+        .e-grid {
+            border-radius: 8px; /* Apply rounded corners to the grid itself */
+            overflow: hidden; /* Ensures content respects border-radius */
+        }
+        .e-grid .e-headercell {
+            background-color: #e2e8f0; /* Light header background */
+            font-weight: 600;
+            color: #334155;
+            padding: 12px 16px;
+        }
+        .e-grid .e-rowcell {
+            padding: 10px 16px;
+        }
+    </style>
+    <!-- Syncfusion Essential JS 2 CSS -->
+    <link href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet" />
+    
+
+<body>
+
+    <div id="grid-container" class="w-full max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-lg">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Event Log Data Grid</h1>
+        <!-- Syncfusion Grid will be rendered here -->
+        <div id="grid"></div>
+    </div>
+
+    <!-- Syncfusion Essential JS 2 Script - All modules in one bundle for simplicity -->
+    <!-- Using the ES5 compatible CDN bundle -->
+    <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
+
+    <script type="text/javascript">
+        // Ensure the DOM is fully loaded before initializing Syncfusion Grid
+        document.addEventListener('DOMContentLoaded', function () {
+            // New data for the grid based on your input
+            // var gridData = [
+            //     { "EventDescription": "Detect Data Poisoning executed successfully.", "ObjectID": 1, "EventData": "{\"Status\":\"Success\"}", "EventTypeID": 13001, "Workflow": "DataSecurity", "UserID": 1, "EventSourceID": 2, "id": "event_20250622010636399731_13001", "Timestamp": "" },
+            //     { "EventDescription": "Enable Model Access Control executed successfully.", "ObjectID": 2, "EventData": "{\"Status\":\"Success\"}", "EventTypeID": 13002, "Workflow": "DataSecurity", "UserID": 1, "EventSourceID": 2, "id": "event_20250622010651057657_13002", "Timestamp": "" },
+            //     { "EventDescription": "Prevent Data Input Manipulation executed successfully.", "ObjectID": 4, "EventData": "{\"Status\":\"Success\"}", "EventTypeID": 13004, "Workflow": "DataSecurity", "UserID": 1, "EventSourceID": 2, "id": "event_20250622010706091107_13004", "Timestamp": "" },
+            //     { "EventDescription": "Successful user authentication", "ObjectID": "user_12345", "EventData": "{\"browser\":\"Chrome\",\"version\":\"120.0\",\"ip_address\":\"192.168.1.100\"}", "EventTypeID": 101, "Timestamp": "2025-06-22T10:39:20.403137+00:00", "Workflow": "User_Login_Flow", "UserID": 1, "EventSourceID": 2, "id": "event_20250622103920412644_user_12345" }
+            // ];
+
+
+
+
+            // Define the columns for the grid based on the new data keys
+            var gridColumns = [
+                // { field: 'id', headerText: 'ID', width: 250 },
+                { field: 'EventTypeID', headerText: 'EventTypeID', width: 120 },
+                { field: 'Workflow', headerText: 'Workflow', width: 110 },
+                { field: 'EventData', headerText: 'Event Data', width: 150 },
+                { field: 'EventDescription', headerText: 'Event Description', width: 300 },
+                { field: 'Timestamp', headerText: 'Timestamp', width: 120 },
+                { field: 'ObjectID', headerText: 'Object ID', width: 100 },                
+                { field: 'UserID', headerText: 'User ID', width: 100 },
+                // { field: 'EventSourceID', headerText: 'Event Source ID', width: 100 }
+                
+            ];
+
+            // Initialize the Syncfusion Grid
+            var grid = new ej.grids.Grid({
+                dataSource: [],           // Assign the new data to the grid
+                columns: gridColumns,           // Assign the new columns to the grid
+                allowPaging: true,              // Enable paging
+                pageSettings: { pageSize: 10 },  // Set page size to 5
+                allowSorting: true,             // Enable sorting
+                // allowFiltering: true,           // Enable filtering
+                height: '400px'                  // Set height to auto to fit content
+            });
+
+            // Render the grid into the div element with id 'grid'
+            grid.appendTo('#grid');
+
+            Swal.fire({ title: 'Loading Telemetry Data...please wait' });
+        Swal.showLoading();
+        fetch('/FetchFromFirestore')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                grid.dataSource = data;
+                grid.refresh();
+                Swal.close()
+            })
+        });
+    </script>
+</body>
+
+{% endblock %}
